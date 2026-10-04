@@ -590,7 +590,7 @@ def doesDelCandidateHaveMetadataNotInDupToKeep(DupFile, DupFileToKeep, listName,
     return DupToKeepMissingItem, DelCandidateMissingItem
 
 
-htmlReportNameFolder        = f"{stash.PLUGINS_PATH}{os.sep}DupFileManager{os.sep}report"
+htmlReportNameFolder        = f"{pathlib.Path(__file__).resolve().parent}{os.sep}report"
 htmlReportName              = f"{htmlReportNameFolder}{os.sep}{stash.Setting('htmlReportName')}"
 htmlReportTableRow          = stash.Setting('htmlReportTableRow')
 htmlIncludeImagePreview     = stash.Setting('htmlIncludeImagePreview')
@@ -1567,10 +1567,14 @@ def mergeTags():
     sys.stdout.write("{" + f"mergeTags : 'complete', id1: '{scene1['id']}', id2: '{scene2['id']}'" + "}")
 
 def getLocalDupReportPath():
+    import base64
     htmlReportExist = "true" if os.path.isfile(htmlReportName) else "false"
     localPath = htmlReportName.replace("\\", "\\\\")
-    jsonReturn = "{'LocalDupReportExist' : " + f"{htmlReportExist}" + ", 'Path': '" + f"{localPath}" + "'}"
-    stash.Log(f"Sending json value {jsonReturn}")
+    contentB64 = ""
+    if os.path.isfile(htmlReportName):
+        with open(htmlReportName, "rb") as f:
+            contentB64 = base64.b64encode(f.read()).decode("ascii")
+    jsonReturn = "{'LocalDupReportExist' : " + f"{htmlReportExist}" + ", 'Path': '" + f"{localPath}" + "', 'Content': '" + contentB64 + "'}"
     sys.stdout.write(jsonReturn)
 
 def deleteLocalDupReportHtmlFiles(doJsonOutput = True):

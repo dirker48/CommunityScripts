@@ -190,6 +190,14 @@ li:hover .large {
 <script>
 var apiKey = "";
 var GraphQl_URL = "http://localhost:9999/graphql";
+(function() {
+  if (window.location.href.indexOf('blob:') === 0) {
+    try {
+      var o = new URL(window.location.href.slice(5)).origin;
+      if (o && o !== 'null') { GraphQl_URL = o + '/graphql'; }
+    } catch(e) {}
+  }
+})();
 var OrgPrevPage = null;
 var OrgNextPage = null;
 var OrgHomePage = null;

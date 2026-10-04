@@ -52,11 +52,17 @@
       "getLocalDupReportPath",
       "json"
     );
-    var LocalDuplicateReportPath = "file://" + LocalDuplicateReport.Path;
+    var LocalDuplicateReportPath;
+    if (LocalDuplicateReport.Content) {
+      var blob = new Blob([atob(LocalDuplicateReport.Content)], {type: "text/html"});
+      LocalDuplicateReportPath = URL.createObjectURL(blob);
+    } else {
+      LocalDuplicateReportPath = "file://" + LocalDuplicateReport.Path;
+    }
     console.log(LocalDuplicateReportPath);
     // AdvanceMenuOptionUrl = LocalDuplicateReportPath.replace("report\\DuplicateTagScenes.html", "advance_options.html" + "?GQL=" + rootPath);
     AdvanceMenuOptionUrl = LocalDuplicateReportPath.replace(
-      "report\\DuplicateTagScenes.html",
+      "report/DuplicateTagScenes.html",
       "advance_options.html"
     );
     console.log(AdvanceMenuOptionUrl);
@@ -95,7 +101,7 @@
   function GetShowReportButton(LocalDuplicateReportPath, ButtonText) {
     return React.createElement(
       "a",
-      { href: LocalDuplicateReportPath, title: ShowReportButtonToolTip },
+      { href: LocalDuplicateReportPath, target: "_blank", rel: "noopener", title: ShowReportButtonToolTip },
       React.createElement(Button, null, ButtonText)
     );
   }
