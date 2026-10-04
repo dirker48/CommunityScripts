@@ -2,8 +2,8 @@
   name: DupFileManager
   metadata:
     description: Manages duplicate files.
-  version: 1.0.2-e13fccc
-  date: 2026-08-29 21:50:24
+  version: 1.0.2-945a0c6
+  date: 2026-10-04 21:20:52
   path: DupFileManager.zip
   sha256: 1694c17c49dfd083d00253193cb3c3d2f29512c91414af42371a8754f84bd916
 
